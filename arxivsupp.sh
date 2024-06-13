@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Check for the correct number of arguments
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 input_file.tex"
+    exit 1
+fi
+
+# Get input file name from command-line argument
+input_file="$1"
+
+# Check if the input file exists
+if [ ! -f "$input_file" ]; then
+    echo "Error: Input file $input_file not found."
+    exit 1
+fi
+
+input_file_bbl=$(echo "$input_file" | sed 's/\.tex$/.bbl/')
+input_file_noending=$(echo "$input_file" | sed 's/\.tex$//')
+
+# Check if the input bbl file exists
+if [ ! -f "$input_file_bbl" ]; then
+    echo "Error: Input bbl file $input_file_bbl not found."
+    exit 1
+fi
+
+# Generate output file name
+output_file="${input_file%.tex}_arXiv.tex"
+
+# Add desired lines to the beginning of the output file
+{
+  echo "\\clearpage"
+  echo "\\setcounter{equation}{0}"
+  echo "\\setcounter{figure}{0}"
+  echo "\\setcounter{table}{0}"
+  echo ""
+  # Use awk to extract lines between "\begin{document}" and "\end{document}"
+  awk '/\\begin{document}/, /\\end{document}/ {if (!/\\(begin|end){document}/) print}' "$input_file"
+} > "$output_file"
+
+echo "Content between \begin{document} and \end{document} in $input_file has been copied to $output_file with additional lines at the beginning."
+
+cp $input_file_bbl "${input_file_noending}_arXiv.bbl"
+
+# Add leading supp_ to citations and replace the bibliography
+./replace_citations.sh $output_file
+./replace_footnotes.sh -s $output_file
+
