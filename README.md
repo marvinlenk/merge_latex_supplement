@@ -15,3 +15,6 @@ A script that finds all occurrences of ``\footnote{...}`` and replaces it with `
 
 ``line_replacement.py``
 A Python script that takes care of the ``\footnote{...}`` detection, including additional ``{...}`` inside the footnote.
+
+``cleanup.sh tile1.tex file2.tex``
+Removes all auxiliary files from ``pdflatex`` and ``bibtex`` runs on ``file1.tex`` and ``file2.tex``.
