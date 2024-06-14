@@ -24,7 +24,7 @@ fi
 file1_noending=$(echo "$file1" | sed 's/\.tex$//')
 file2_noending=$(echo "$file2" | sed 's/\.tex$//')
 
-pdflatex $file1 -dratfmode
+pdflatex $file1 -draftmode
 bibtex $file1_noending
 pdflatex $file1 -draftmode
 bibtex $file1_noending
