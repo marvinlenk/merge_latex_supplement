@@ -59,10 +59,10 @@ while IFS= read -r line; do
 
     # Replace \footnote{text} with \cite{NoteX} or \cite{SuppNoteX} based on the flag
     if [ "$use_supp" = true ]; then
-      line=$(echo "$line" | python3 line_replacement.py "$count" | sed "s/\\\\cite{Note$count}/\\\\cite{supp_Note$count}/")
+      line=$(echo "$line" | python3 line_replacement "$count" | sed "s/\\\\cite{Note$count}/\\\\cite{supp_Note$count}/")
       sed -i "s/{Note$count}/{supp_Note$count}/g" "$input_file_bbl"
     else
-      line=$(echo "$line" | python3 line_replacement.py "$count")
+      line=$(echo "$line" | python3 line_replacement "$count")
     fi
   fi
   # Append the modified line to the output file
