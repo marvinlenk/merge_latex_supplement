@@ -60,7 +60,6 @@ cp "$file1_bbl" "${file1_noending}_arXiv.bbl"
 sed -i "s/bibliography{[^}]*}/input{${file1_noending}_arXiv.bbl}/" "$file1_arxiv"
 sed -i "s/end{document}/input{${file2_noending}_arXiv.tex}\n/" "$file1_arxiv"
 
-replace_citations "$file1_arxiv"
 replace_footnotes "$file1_arxiv"
 
 # Remove compile files of main and supplement
