@@ -24,20 +24,20 @@ fi
 file1_noending=$(echo "$file1" | sed 's/\.tex$//')
 file2_noending=$(echo "$file2" | sed 's/\.tex$//')
 
-pdflatex $file1 -draftmode
+pdflatex -draftmode -interaction=batchmode $file1
 bibtex $file1_noending
-pdflatex $file1 -draftmode
+pdflatex -draftmode -interaction=batchmode $file1
 bibtex $file1_noending
-pdflatex $file1 -draftmode
-pdflatex $file1
+pdflatex -draftmode -interaction=batchmode $file1
+pdflatex -interaction=batchmode $file1
 pdflatex $file1
 
-pdflatex $file2 -draftmode
+pdflatex -draftmode -interaction=batchmode $file2
 bibtex $file2_noending
-pdflatex $file2 -draftmode
+pdflatex -draftmode -interaction=batchmode $file2
 bibtex $file2_noending
-pdflatex $file2 -draftmode
-pdflatex $file2
+pdflatex -draftmode -interaction=batchmode $file2
+pdflatex -interaction=batchmode $file2
 pdflatex $file2
 
 # Create copies of the supplement with some modifications
@@ -75,8 +75,8 @@ cleanup_texjunk "$file1"
 cleanup_texjunk "$file2"
 
 # Compile the final files
-pdflatex $file1_arxiv -draftmode
-pdflatex $file1_arxiv
+pdflatex $file1_arxiv -draftmode -interaction=batchmode
+pdflatex $file1_arxiv -interaction=batchmode
 pdflatex $file1_arxiv
 
 # And remove the unneeded compilation files.
