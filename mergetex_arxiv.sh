@@ -64,14 +64,7 @@ sed -i "s/end{document}/input{${file2_noending}_arXiv.tex}\n/" "$file1_arxiv"
 ./replace_footnotes.sh "$file1_arxiv"
 
 # Remove compile files of main and supplement
-rm "./${file1_noending}.aux"
-rm "./${file1_noending}.out"
-rm "./${file1_noending}Notes.bib"
-rm "./${file1_noending}.blg"
-rm "./${file2_noending}.aux"
-rm "./${file2_noending}.out"
-rm "./${file2_noending}Notes.bib"
-rm "./${file2_noending}.blg"
+./cleanup.sh "$file1" "$file2"
 
 # Compile the final files
 pdflatex $file1_arxiv -draftmode
