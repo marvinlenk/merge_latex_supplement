@@ -41,7 +41,7 @@ pdflatex $file2
 pdflatex $file2
 
 # Create copies of the supplement with some modifications
-./arxivsupp.sh $file2
+arxivsupp $file2
 
 file1_bbl=$(echo "$file1" | sed 's/\.tex$/.bbl/')
 
@@ -60,11 +60,12 @@ cp "$file1_bbl" "${file1_noending}_arXiv.bbl"
 sed -i "s/bibliography{[^}]*}/input{${file1_noending}_arXiv.bbl}/" "$file1_arxiv"
 sed -i "s/end{document}/input{${file2_noending}_arXiv.tex}\n/" "$file1_arxiv"
 
-./replace_citations.sh "$file1_arxiv"
-./replace_footnotes.sh "$file1_arxiv"
+replace_citations "$file1_arxiv"
+replace_footnotes "$file1_arxiv"
 
 # Remove compile files of main and supplement
-./cleanup.sh "$file1" "$file2"
+cleanup_texjunk "$file1"
+cleanup_texjunk "$file2"
 
 # Compile the final files
 pdflatex $file1_arxiv -draftmode

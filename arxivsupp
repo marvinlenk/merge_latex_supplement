@@ -43,6 +43,6 @@ echo "Content between \begin{document} and \end{document} in $input_file has bee
 cp $input_file_bbl "${input_file_noending}_arXiv.bbl"
 
 # Add leading supp_ to citations and replace the bibliography
-./replace_citations.sh $output_file
-./replace_footnotes.sh -s $output_file
+replace_citations $output_file
+replace_footnotes -s $output_file
 
