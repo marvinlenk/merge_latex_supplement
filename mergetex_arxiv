@@ -58,7 +58,7 @@ cp "$file1_bbl" "${file1_noending}_arXiv.bbl"
 
 # modify the copied main to accept the supplement at the end
 sed -i "s/bibliography{[^}]*}/input{${file1_noending}_arXiv.bbl}/" "$file1_arxiv"
-sed -i "s/end{document}/input{${file2_noending}_arXiv.tex}\n/" "$file1_arxiv"
+sed -i "s/end{document}/include{${file2_noending}_arXiv.tex}\n\\end{document}\n/" "$file1_arxiv"
 
 replace_footnotes "$file1_arxiv"
 
