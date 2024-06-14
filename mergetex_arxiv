@@ -56,6 +56,14 @@ file1_arxiv="${file1_noending}_arXiv.tex"
 cp "$file1" "$file1_arxiv"
 cp "$file1_bbl" "${file1_noending}_arXiv.bbl"
 
+# Redefine the \maketitle command to allow for two titles (in revtex4)
+# Define the code to inject
+injection_code='\\makeatletter\n\\def\\maketitle{\n\\@author@finish\n\\title@column\\titleblock@produce\n\\suppressfloats[t]}\n\\makeatother\n'
+
+# Use sed to insert the code before \begin{document}
+# the escaping is very weird, don't really know what's going on.
+sed -i "/begin{document}/i \\$injection_code" "$file1_arxiv"
+
 # modify the copied main to accept the supplement at the end
 sed -i "s/bibliography{[^}]*}/input{${file1_noending}_arXiv.bbl}/" "$file1_arxiv"
 sed -i "s/end{document}/include{${file2_noending}_arXiv.tex}\n\\end{document}\n/" "$file1_arxiv"
