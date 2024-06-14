@@ -38,6 +38,12 @@ output_file="${input_file%.tex}_arXiv.tex"
   awk '/\\begin{document}/, /\\end{document}/ {if (!/\\(begin|end){document}/) print}' "$input_file"
 } > "$output_file"
 
+# Make sure to comment out duplications of \thetitle definitions
+sed -i 's/\\newcommand{\\thetitle}/%\\newcommand{\\thetitle}/g' "$output_file"
+sed -i 's/\\author/%\\author/g' "$output_file"
+sed -i 's/\\email/%\\email/g' "$output_file"
+sed -i 's/\\affiliation/%\\affiliation/g' "$output_file"
+
 echo "Content between \begin{document} and \end{document} in $input_file has been copied to $output_file with additional lines at the beginning."
 
 cp $input_file_bbl "${input_file_noending}_arXiv.bbl"
