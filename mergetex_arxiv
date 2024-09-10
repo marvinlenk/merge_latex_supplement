@@ -56,10 +56,10 @@ if [ ! -f "$file1_bbl" ]; then
     exit 1
 fi
 
-file1_arxiv="${file1_noending}_arXiv.tex"
+file1_arxiv="${file1_noending}_arxiv.tex"
 
 cp "$file1" "$file1_arxiv"
-cp "$file1_bbl" "${file1_noending}_arXiv.bbl"
+cp "$file1_bbl" "${file1_noending}_arxiv.bbl"
 
 # Redefine the \maketitle command to allow for two titles (in revtex4)
 # Define the code to inject
@@ -70,8 +70,11 @@ injection_code='\\makeatletter\n\\def\\maketitle{\n\\@author@finish\n\\title@col
 sed -i "/begin{document}/i \\$injection_code" "$file1_arxiv"
 
 # modify the copied main to accept the supplement at the end
-sed -i "s/bibliography{[^}]*}/input{${file1_noending}_arXiv.bbl}/" "$file1_arxiv"
-sed -i "s/end{document}/include{${file2_noending}_arXiv.tex}\n\\end{document}\n/" "$file1_arxiv"
+sed -i "s/bibliography{[^}]*}/input{${file1_noending}_arxiv.bbl}/g" "$file1_arxiv"
+injection_code2='\\include{'
+injection_code2+=$file2_noending
+injection_code2+='_arxiv.tex}\n'
+sed -i "/end{document}/i \\$injection_code2" "$file1_arxiv"
 
 replace_footnotes "$file1_arxiv"
 
@@ -80,14 +83,14 @@ cleanup_texjunk "$file1"
 cleanup_texjunk "$file2"
 
 # Compile the final files
-pdflatex $file1_arxiv -draftmode -interaction=batchmode
-pdflatex $file1_arxiv -interaction=batchmode
+pdflatex -draftmode -interaction=batchmode $file1_arxiv
+pdflatex -interaction=batchmode $file1_arxiv
 pdflatex $file1_arxiv
 
 # And remove the unneeded compilation files.
-rm "./${file1_noending}_arXiv.aux"
-rm "./${file1_noending}_arXiv.out"
-rm "./${file1_noending}_arXivNotes.bib"
+rm "./${file1_noending}_arxiv.aux"
+rm "./${file1_noending}_arxiv.out"
+rm "./${file1_noending}_arxivNotes.bib"
 
 echo "Please check if $file1 $file2 and $file1_arxiv give the desired PDF output."
 
