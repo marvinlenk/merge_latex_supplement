@@ -91,4 +91,6 @@ rm "./${file1_noending}_arXivNotes.bib"
 
 echo "Please check if $file1 $file2 and $file1_arxiv give the desired PDF output."
 
+cd ..
+
 exit 0
