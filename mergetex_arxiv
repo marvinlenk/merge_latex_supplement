@@ -6,6 +6,11 @@ if [ "$#" -ne 2 ]; then
     exit 1
 fi
 
+mkdir ../arxiv_version/
+cp -r ./* ../arxiv_version/
+mv ../arxiv_version ./
+cd arxiv_version/
+
 # Get the input file names from command-line arguments
 file1="$1"
 file2="$2"
