@@ -40,6 +40,12 @@ if [ ! -f "$input_file" ]; then
     exit 1
 fi
 
+# add tailing newline to the file to make sure it works, otherwise last line woukd get removed
+if [ -n "$(tail -c 1 "$input_file")" ]; then
+  echo "" >> "$input_file"
+  echo "Added a trailing newline to $input_file"
+fi
+
 input_file_bbl=$(echo "$input_file" | sed 's/\.tex$/.bbl/')
 
 # Check if the input bbl file exists
